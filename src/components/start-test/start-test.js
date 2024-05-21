@@ -14,6 +14,7 @@ export default function StartTest() {
   const [currentQueIndex, setCurrentQueIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [score, setScore] = useState(0);
+  const [course, setCourse] = useState('');
   const [isTestSubmitted, setIsTestSubmitted] = useState(false);
 
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function StartTest() {
 
     // collecting the user details (name, selected subject that we had stored)
     const user = JSON.parse(localStorage.getItem("userDetails") || "{}");
-    const { selectedSub = "", name = "" } = user || {};
+    const { selectedSub = "", name = "", course = "" } = user || {};
 
     // reading the user name and selected subject
 
@@ -34,8 +35,8 @@ export default function StartTest() {
     }
     setUserName(name);
     // setting user name
-
-    const questions = QUESTIONS_BY_SUBJECT?.[user?.selectedSub];
+    setCourse(course);
+    const questions = QUESTIONS_BY_SUBJECT?.[user?.selectedSub?.course];
     // getting test questions depend on selected subject
     // and setting the questions in use state
     setQuestions(questions);
@@ -69,6 +70,25 @@ export default function StartTest() {
     // if not last questions update current question index to prev + 1
     setCurrentQueIndex(currentQueIndex + 1);
   }
+  function handleClickPrivious() {
+    // calculating the score ans setting updating it to useState
+    // const newScore = score + (answer == correctAns ? 2 : -1);
+    // setScore(newScore);
+
+    // if last question
+    // setting test submit true to open modal
+    // if (currentQueIndex === 4) {
+    //   setIsTestSubmitted(true);
+    //   return;
+
+    // }
+
+    // if not last questions update current question index to prev + 1
+    if (currentQueIndex > 0) {
+      setCurrentQueIndex(currentQueIndex - 1);
+    }
+  }
+
 
   //  when test submitted will be true on submit last question
   // this mui modal will get open
@@ -86,6 +106,7 @@ export default function StartTest() {
           data={{
             score,
             userName,
+            course,
           }}
         />
       </Dialog>
@@ -115,6 +136,11 @@ export default function StartTest() {
             customStyle={styles.btnText}
             btnText={currentQueIndex === 4 ? "Submit" : "Next"}
             handlerFunction={handleClickNext}
+          />
+          <CustomButton
+            customStyle={styles.btnText}
+            btnText="Previous"
+            handlerFunction={handleClickPrivious}
           />
         </div>
         <div className={styles.rightSec}>

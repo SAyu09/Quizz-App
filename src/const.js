@@ -6,6 +6,11 @@ const SUBJECTS = [
     'physics',
     'chemistry',
 ]
+const Course = [
+  'CSE',
+  'AI/ML',
+  'Cloud Computing',
+]
 const QUESTIONS_BY_SUBJECT = {
     'physics' : [
         {
@@ -110,6 +115,8 @@ const QUESTIONS_BY_SUBJECT = {
 }
 
 export {
+
     SUBJECTS,
+    Course,
     QUESTIONS_BY_SUBJECT
 }

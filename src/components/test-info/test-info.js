@@ -1,13 +1,14 @@
 import { useState } from "react"
 import CustomButton from "../button/button"
 import styles from './test-info.module.css'
-import { SUBJECTS } from "../../const"
+import { Course, SUBJECTS } from "../../const"
 import { useNavigate } from 'react-router-dom'
 export default function TestInfo () {
 
     // use states to save name, slected subject, ans error message if any.
     const [name, setName] = useState('')
     const [selectedSub, setSelectedSub] = useState('')
+    const [course,setCourse]=useState('')
     const [errMsg, setErrMsg] = useState('')
 
     // to navigate to start test page
@@ -25,6 +26,10 @@ export default function TestInfo () {
         setSelectedSub(e.target.value)
         // setting user slected subject
     }
+    function handleSelectcourse (e) {
+        setErrMsg('')
+        setCourse(e.target.value)
+    }
     
     function handleStartTest () {
 
@@ -38,6 +43,10 @@ export default function TestInfo () {
             setErrMsg('Please select the subject.')
             return ;
         }
+        if(!course){
+            setErrMsg('please enter course')
+            return ;
+        }
         // if all the data is filled properly by user
         // saving data in local storage before changing the page
         // so that we could check user input on next page (start test page)
@@ -46,7 +55,7 @@ export default function TestInfo () {
         localStorage.setItem(
             'userDetails', 
             JSON.stringify({
-                name, selectedSub
+                name, course,selectedSub
             })
         )
         // if all good to go, will take user to start test page.
@@ -64,6 +73,25 @@ export default function TestInfo () {
             />
              
              {/* select to collect user subject for test */}
+             <select 
+                className={styles.select} 
+                onChange={handleSelectcourse}
+            >
+                <option 
+                    value='' 
+                    selected
+                > Course</option>
+                {
+                    Course.map(Course => (
+                        <option value={Course}>
+                            {Course}
+                        </option>
+                    ))
+                }
+
+            </select>
+
+
             <select 
                 className={styles.select} 
                 onChange={handleSelectSubject}
